@@ -76,6 +76,10 @@ button {
 }
 
 /// Ticket area
+.grid-wrapper {
+    float: left;
+}
+
 .item {
 
     padding: 1em;
@@ -89,27 +93,34 @@ button {
     transition: all 0.2s ease;
 
     .item-grid {
+        width: 42px;
         float: left;
         border-top: 1px solid #000;
         border-left: 1px solid #000;
+
     }
     .inner span {
         display: block;
     }
     .cell {
+        
         //width: 100/9*1%;
         width: 42px;
         height: 42px;
-        float: left;
+        //float: left;
         padding-top: 14px;
         font-weight: 700;
         text-align: center;
         line-height: 1em;
         border-right: 1px solid #000;
         border-bottom: 1px solid #000;
+        
+        @extend .clearfix;
+
         &.used {
             background: red;
         }
+
     }
     .remaining {
         width: 5em;

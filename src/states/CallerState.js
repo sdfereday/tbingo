@@ -36,7 +36,6 @@ define(['enums', 'appData', 'helpers', 'gameLogic'], function (enums, appData, h
 
         // You might want to use this for some sort of scoring animation event
         // if (logic.state === enums.SCORED) {
-        //     //console.log(logic.ticketInfo);
         //     // Perform 'scored' state
         // }
 

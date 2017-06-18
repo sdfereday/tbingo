@@ -1,4 +1,4 @@
-define(['ko'], function (ko) {
+define(['ko', 'helpers'], function (ko, helpers) {
 
     let UI = function () {
 
@@ -16,9 +16,21 @@ define(['ko'], function (ko) {
         // Using knockout js, we visualize the various structure of the ticket data, then bind it as view models here
         let CellModel = function (data, atEnd) {
 
+            this.x = ko.observable(data.x);
             this.hit = ko.observable(data.hit);
             this.value = ko.observable(data.v);
             this.end = ko.observable(atEnd);
+
+        };
+
+        let ColumnModel = function(idx, cells) {
+
+            this.x = ko.observable(idx);
+            this.cells = cells().filter(function(item){
+                return item.x() === this.x();
+            }, this);
+            
+            helpers.shuffle(this.cells);
 
         };
 
@@ -35,6 +47,14 @@ define(['ko'], function (ko) {
                     return new CellModel(cellData, endOfRow);
                 })
             );
+
+            let columns = [];
+
+            for(let i = 0; i < data.width; i++) {
+                columns.push(new ColumnModel(i, this.cells));
+            }
+
+            this.columns = ko.observableArray(columns);
 
         };
 
