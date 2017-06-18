@@ -1,0 +1,133 @@
+// @import "milligram";
+// .row {
+//     width: 100%;
+//     clear: both;
+// }
+
+/// Mixins
+@mixin linearGradient($top, $bottom) {
+    background: $top;
+    /* Old browsers */
+    background: -moz-linear-gradient(top, $top 0%, $bottom 100%);
+    /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $top), color-stop(100%, $bottom));
+    /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, $top 0%, $bottom 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, $top 0%, $bottom 100%);
+    /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, $top 0%, $bottom 100%);
+    /* IE10+ */
+    background: linear-gradient(to bottom, $top 0%, $bottom 100%);
+    /* W3C */
+}
+
+/// Setup
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font: 85%/1.4em arial;
+    text-align: center;
+    background: #333;
+}
+
+.clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+.container {
+    width: 36em;
+    text-align: center;
+    margin: 0 auto;
+}
+
+/// Header area
+header {
+    padding: 1em 0;
+    color: #fff;
+    h1 {
+        margin: 0;
+        padding: 0 0 0.5em;
+    }
+}
+
+#output {
+    padding: 0 1em 1em;
+    display: none;
+}
+
+button {
+    padding: 0.6em;
+    color: #fff;
+    background: #80c217;
+    border-radius: 6px;
+    border: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    &:hover {
+        background: #9dd53a;
+    }
+}
+
+/// Ticket area
+.item {
+
+    padding: 1em;
+    float: left;
+    clear: both;
+    margin: 0 auto;
+
+    background: #f7ebeb;
+    border-bottom: 2px dashed #000;
+
+    .item-grid {
+        float: left;
+        border-top: 1px solid #000;
+        border-left: 1px solid #000;
+    }
+    .inner span {
+        display: block;
+    }
+    .cell {
+        //width: 100/9*1%;
+        width: 42px;
+        height: 42px;
+        float: left;
+        padding-top: 14px;
+        font-weight: 700;
+        text-align: center;
+        line-height: 1em;
+        border-right: 1px solid #000;
+        border-bottom: 1px solid #000;
+    }
+    .remaining {
+        width: 5em;
+        min-height: 9.3em;
+        float: left;
+        margin-left: 0.5em;
+        line-height: 1.5em;
+        color: #fff;
+        border: 1px solid #000;
+        border-radius: 4px;
+        
+        @include linearGradient( #9dd53a, #80c217);
+        
+        .inner {
+            width: 100%;
+            padding: 1em 0.3em;
+            text-align: center;
+            .number {
+                padding: 0.5em 0 0.2em;
+                font-weight: 700;
+                font-size: 2.3em;
+            }
+        }
+
+    }
+}

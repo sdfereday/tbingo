@@ -6,7 +6,9 @@ var require = {
         'gameLogic': '/src/GameLogic',
         'GameTicket': '/src/GameTicket',
         // Enums
-        'enums': '/src/enums'
+        'enums': '/src/enums',
+        // UI
+        'UI': '/src/uiManager' 
     },
     shim: {
         // "app": {

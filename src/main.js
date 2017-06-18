@@ -2,8 +2,9 @@ require([
     'enums',
     'gameLogic',
     'GameTicket',
+    'UI',
     'helpers'
-], function(enums, gameLogic, Ticket, helpers) {
+], function(enums, gameLogic, Ticket, UI, helpers) {
 
     ///////// SETUP
     // The static string given to each bingo card
@@ -52,15 +53,9 @@ require([
     }
 
     ///////////////////////////// BUILD UI
-    
+    let appUI = new UI();
 
     ///////////////////////////// App States
-    let IdleState = function() {}
-
-    let WinState = function() {}
-
-    let ScoreState = function() {}
-
     let CallerState = function() {}
 
     CallerState.prototype.update = function() {
@@ -86,7 +81,6 @@ require([
         if (logic.state === enums.TICKETWIN) {
             console.log(logic.ticketInfo);
             // Perform 'win' state
-            throw "Balls";
         }
 
         if (logic.state === enums.SCORED) {
@@ -98,6 +92,11 @@ require([
 
     let currentState = new CallerState();
 
-    helpers.setInterval(currentState.update, 10);
+    // Main game loop
+    helpers.setInterval(function(){
+
+        currentState.update();
+    
+    }, 10);
 
 });
