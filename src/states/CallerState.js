@@ -1,17 +1,21 @@
-define(['enums', 'appData', 'helpers', 'gameLogic'], function(enums, appData, helpers, gameLogic){
+define(['enums', 'appData', 'helpers', 'gameLogic'], function (enums, appData, helpers, gameLogic) {
 
-    let CallerState = function() {}
+    // Caller state could quite easily be accompanied by other states using an FSM. This would allow for you to 
+    // chain various animations or events. Since this is just a simple example, we only need the one.
+    let CallerState = function () {
 
-    CallerState.prototype.update = function() {
+        // Set a new property in the appData area for balls called through the session
+        appData.set('ballCalled', -1);
+
+    }
+
+    CallerState.prototype.update = function () {
 
         let numberCache = appData.get('numberCache');
         let tickets = appData.get('tickets');
 
-        if (numberCache.length === 0) {
+        if (numberCache.length === 0)
             return;
-        } else {
-            console.info("Running...");
-        }
 
         let rand = helpers.chance.integer({
             min: 0,
@@ -19,20 +23,27 @@ define(['enums', 'appData', 'helpers', 'gameLogic'], function(enums, appData, he
         });
 
         let n = numberCache.splice(rand, 1)[0];
-
-        // Keeps calling ranom numbers from 1 - 90 (once only), with each call checks each ticket to see if it has the
-        // number in there.
         let logic = gameLogic.callBall(n, tickets);
 
+        appData.update('ballCalled', n);
+
         if (logic.state === enums.TICKETWIN) {
-            //console.log(logic.ticketInfo);
-            // Perform 'win' state
+            return {
+                state: logic.state,
+                data: logic.ticketInfo
+            };
         }
 
-        if (logic.state === enums.SCORED) {
-            //console.log(logic.ticketInfo);
-            // Perform 'scored' state
-        }
+        // You might want to use this for some sort of scoring animation event
+        // if (logic.state === enums.SCORED) {
+        //     //console.log(logic.ticketInfo);
+        //     // Perform 'scored' state
+        // }
+
+        return {
+            state: logic.state,
+            data: null
+        };
 
     };
 

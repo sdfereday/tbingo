@@ -1,6 +1,7 @@
 define(function(){
 
     return {
+        updateSpeed: 128,
         maxBalls: 90,
         cardsUsed: 6,
         cardWidth: 9,

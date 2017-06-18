@@ -18,11 +18,16 @@
                 No messages...
             </div>
             <button id="play">Start Game!</button>
+            <button id="pause">Pause Game</button>
         </header>
 
         <div id="tickets" data-bind="foreach: tickets">
 
-            <div class="item">
+            <div class="item" data-bind="style: { opacity: hide() ? '0.5' : '1' }, css: { winner: isWinner() }">
+
+                <div class="ticket-header">
+                    <h2>Winning Ticket!</h2>
+                </div>
 
                 <div class="item-grid" data-bind="foreach: cells">
 

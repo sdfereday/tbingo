@@ -7,7 +7,7 @@ require([
     'CallerState',
     'UI',
     'helpers'
-], function(config, appData, enums, gameLogic, Ticket, CallerState, UI, helpers) {
+], function (config, appData, enums, gameLogic, Ticket, CallerState, UI, helpers) {
 
     ///////////////////////// PARSING
     // The static string given to each bingo card
@@ -39,7 +39,7 @@ require([
 
     // Main application data, useful to keep global tabs on what data's being used
     // Create a collection of tickets with relavant data
-    let createdTickets = ticketNumberGroups.map(function(ticketNumberGroup, i) {
+    let createdTickets = ticketNumberGroups.map(function (ticketNumberGroup, i) {
         return new Ticket(config.cardWidth, config.cardHeight, ticketNumberGroup.length, ticketNumberGroup, i).make();
     });
 
@@ -54,7 +54,7 @@ require([
     appData.update('tickets', createdTickets);
     appData.update('numberCache', balls);
 
-    ////////////////////////// RUNTIME
+    ////////////////////////// UI & Game State
     let appUI = new UI()
         .start({
             tickets: appData.get('tickets')
@@ -62,24 +62,55 @@ require([
 
     let currentState = new CallerState();
 
-    // DOM events
+    ////////////////////////// DOM events
     let output = document.getElementById('output');
     let playButton = document.getElementById('play');
+    let pauseButton = document.getElementById('pause');
+    let gameOver = false;
+    let paused = false;
 
-    playButton.addEventListener('click', function() {
+    playButton.addEventListener('click', function () {
 
         this.style.display = 'none';
+        pauseButton.style.display = 'inline-block';
         output.style.display = 'block';
 
         output.innerHTML = "Now playing!";
 
-        helpers.setInterval(function() {
-            
-            currentState.update();
-            appUI.update(appData.get('tickets'));
-
-        }, 10);
+        startGame();
 
     });
+
+    pauseButton.addEventListener('click', function () {
+        paused = !paused;
+        this.innerHTML = paused ? "Resume Game" : "Pause Game";
+    });
+
+    ///////////////////////// Main Loop
+    function startGame() {
+
+        // To speed up the game, please see the config.js file
+        helpers.setInterval(function () {
+
+            if (paused)
+                return;
+
+            if (gameOver) {
+                // You could get all of these strings from a server resource for translations
+                output.innerHTML = "Game won!";
+                appUI.win(appData.get('tickets'));
+                return;
+            }
+
+            let appState = currentState.update();
+            gameOver = appState.state === enums.TICKETWIN;
+
+            appUI.update(appData.get('tickets'));
+
+            output.innerHTML = "Number called: " + appData.get('ballCalled');
+
+        }, config.updateSpeed);
+
+    }
 
 });

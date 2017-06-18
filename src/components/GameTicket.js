@@ -33,6 +33,7 @@ define(['enums', 'helpers', 'TicketCell'], function(enums, helpers, TicketCell) 
 
         let columnData = this.colData;
 
+        // First off we create a grid based on the width and height of the numbers needed
         for (let col = 0; col < this.width; col++) {
 
             this.grid.push([]);
@@ -50,7 +51,7 @@ define(['enums', 'helpers', 'TicketCell'], function(enums, helpers, TicketCell) 
 
         }
 
-        // We flatten the grid to make it quicker to access
+        // We flatten the grid to make it quicker to access during playtime, so long as it's only done on set up, it shouldn't be too much of an overhead
         this.grid = helpers.flatten(this.grid);
 
         return this;
@@ -71,8 +72,7 @@ define(['enums', 'helpers', 'TicketCell'], function(enums, helpers, TicketCell) 
 
     GameTicket.prototype.tryScore = function(n) {
 
-        // Should any return true, we can return
-        // the event that runs the celebration state.
+        // Should any return true, we can return the event that runs some sort of game win state
         let cell = this.getCellByValue(n);
 
         if (cell && !cell.occupied()) {

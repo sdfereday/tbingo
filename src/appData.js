@@ -2,6 +2,7 @@ define(['config'], function(config) {
 
     let _data = {};
 
+    // App Data allows for a global view on the state of the game data
     let appData = {
         set: function(name, data) {
             _data[name] = data;

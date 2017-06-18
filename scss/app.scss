@@ -1,9 +1,3 @@
-// @import "milligram";
-// .row {
-//     width: 100%;
-//     clear: both;
-// }
-
 /// Mixins
 @mixin linearGradient($top, $bottom) {
     background: $top;
@@ -77,6 +71,10 @@ button {
     }
 }
 
+#pause {
+    display: none;
+}
+
 /// Ticket area
 .item {
 
@@ -87,6 +85,8 @@ button {
 
     background: #f7ebeb;
     border-bottom: 2px dashed #000;
+
+    transition: all 0.2s ease;
 
     .item-grid {
         float: left;
@@ -133,6 +133,19 @@ button {
                 font-size: 2.3em;
             }
         }
-
     }
+
+    .ticket-header {
+        display: none;
+        h2 {
+            margin-top: 0.5em;
+        }
+    }
+
+    &.winner {
+        .ticket-header {
+            display: block;
+        }
+    }
+    
 }

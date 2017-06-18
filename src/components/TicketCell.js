@@ -4,7 +4,7 @@ define(['enums'], function(enums){
 
         this.x = x;
         this.y = y;
-        this.v = v;
+        this.v = v || " ";
         this.hit = 0;
 
     };
