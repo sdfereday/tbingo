@@ -1,24 +1,17 @@
 require([
+    'config',
+    'appData',
     'enums',
     'gameLogic',
     'GameTicket',
+    'CallerState',
     'UI',
     'helpers'
-], function(enums, gameLogic, Ticket, UI, helpers) {
+], function(config, appData, enums, gameLogic, Ticket, CallerState, UI, helpers) {
 
-    ///////// SETUP
+    ///////////////////////// PARSING
     // The static string given to each bingo card
     const tstring = "011722475204365360702637497481233455758302154058881928446789061241507324334876840738576186051132437816395663800818206590104559628214294664710935667287132130687703253151692742547985";
-
-    // Various config settings for cards, grids and app
-    const config = {
-        maxBalls: 90,
-        cardsUsed: 6,
-        cardWidth: 9,
-        cardHeight: 3,
-        maxScore: 5,
-        numbersPerCard: 15
-    };
 
     // Parse the string in to a useable array (uses regex)
     let parsedString = helpers.splitEvery(tstring, 2),
@@ -41,62 +34,52 @@ require([
     }
 
     ////////////////////////// POPULATION
-    // Create the bingo cards using the ticket number group as a basis (consider revision on this)
-    bingoCards = ticketNumberGroups.map(function(ticketNumberGroup, i) {
+    appData.set('tickets', []);
+    appData.set('numberCache', []);
+
+    // Main application data, useful to keep global tabs on what data's being used
+    // Create a collection of tickets with relavant data
+    let createdTickets = ticketNumberGroups.map(function(ticketNumberGroup, i) {
         return new Ticket(config.cardWidth, config.cardHeight, ticketNumberGroup.length, ticketNumberGroup, i).make();
     });
 
-    let numberCache = [];
+    // Create a series of numbers to be balles
+    let balls = [];
 
     for (let i = 1; i <= config.maxBalls; i++) {
-        numberCache.push(i);
+        balls.push(i);
     }
 
-    ///////////////////////////// BUILD UI
-    let appUI = new UI();
+    // Update the app data cache with newly created elements
+    appData.update('tickets', createdTickets);
+    appData.update('numberCache', balls);
 
-    ///////////////////////////// App States
-    let CallerState = function() {}
-
-    CallerState.prototype.update = function() {
-
-        if (numberCache.length === 0) {
-            console.log("Seems like nothing won.");
-            return;
-        } else {
-            console.info("Running...");
-        }
-
-        let rand = helpers.chance.integer({
-            min: 0,
-            max: numberCache.length - 1
+    ////////////////////////// RUNTIME
+    let appUI = new UI()
+        .start({
+            tickets: appData.get('tickets')
         });
-
-        let n = numberCache.splice(rand, 1)[0];
-
-        // Keeps calling ranom numbers from 1 - 90 (once only), with each call checks each ticket to see if it has the
-        // number in there.
-        let logic = gameLogic.callBall(n, bingoCards);
-
-        if (logic.state === enums.TICKETWIN) {
-            console.log(logic.ticketInfo);
-            // Perform 'win' state
-        }
-
-        if (logic.state === enums.SCORED) {
-            console.log(logic.ticketInfo);
-            // Perform 'scored' state
-        }
-
-    };
 
     let currentState = new CallerState();
 
-    // Main game loop
-    helpers.setInterval(function(){
+    // DOM events
+    let output = document.getElementById('output');
+    let playButton = document.getElementById('play');
 
-        currentState.update();
-    
-    }, 10);
+    playButton.addEventListener('click', function() {
+
+        this.style.display = 'none';
+        output.style.display = 'block';
+
+        output.innerHTML = "Now playing!";
+
+        helpers.setInterval(function() {
+            
+            currentState.update();
+            appUI.update(appData.get('tickets'));
+
+        }, 10);
+
+    });
 
 });

@@ -4,6 +4,7 @@ define(['enums', 'helpers', 'TicketCell'], function(enums, helpers, TicketCell) 
 
         this.maxScore = maxScore;
         this.currentScore = 0;
+        this.remaining = maxScore;
 
         this.width = w;
         this.height = h;
@@ -78,6 +79,7 @@ define(['enums', 'helpers', 'TicketCell'], function(enums, helpers, TicketCell) 
             
             cell.use();
             this.currentScore += 1;
+            this.remaining -= 1;
             
             return enums.SCORED;
 

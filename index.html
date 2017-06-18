@@ -10,10 +10,6 @@
 
 <body>
 
-    <!-- Handlebars templates -->
-
-
-    <!-- Main container area -->
     <div class="container">
 
         <header>
@@ -24,104 +20,25 @@
             <button id="play">Start Game!</button>
         </header>
 
-        <div id="tickets"></div>
+        <div id="tickets" data-bind="foreach: tickets">
 
-        <div class="row item">
+            <div class="item">
 
-            <div class="column column-85 item-grid">
-                <div class="row force-column">
-                    <div class="cell">
-                        99
+                <div class="item-grid" data-bind="foreach: cells">
+
+                    <div class="cell" data-bind="text: value, style: { clear: end() ? 'left' : 'none' }, css: { used : hit() }">
+                        ...
                     </div>
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
+
+                </div>
+
+                <div class="column column-15 remaining">
+                    <div class="inner">
+                        <span class="number" data-bind="text: remaining">0</span>
+                        <span>TO</span> GO
                     </div>
                 </div>
-                <div class="row force-column">
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                </div>
-                <div class="row force-column">
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                    <div class="cell">
-                        99
-                    </div>
-                </div>
-            </div>
-            <div class="column column-15 remaining">
-                <div class="inner">
-                    <span class="number">15</span>
-                    <span>TO</span> GO
-                </div>
+
             </div>
 
         </div>

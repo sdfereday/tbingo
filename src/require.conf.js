@@ -1,14 +1,14 @@
 var require = {
     paths: {
-        // Libs
         'Chance': '/bower_components/chance/dist/chance.min',
-        // Game
+        'ko': '/bower_components/knockout/dist/knockout',
         'gameLogic': '/src/GameLogic',
-        'GameTicket': '/src/GameTicket',
-        // Enums
+        'GameTicket': '/src/components/GameTicket',
+        'TicketCell': '/src/components/TicketCell',
+        'CallerState': '/src/states/CallerState',
         'enums': '/src/enums',
-        // UI
-        'UI': '/src/uiManager' 
+        'UI': '/src/uiManager',
+        'config': '/src/config'
     },
     shim: {
         // "app": {

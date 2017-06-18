@@ -45,6 +45,8 @@ body {
     width: 36em;
     text-align: center;
     margin: 0 auto;
+    padding-bottom: 2em;
+    @extend .clearfix;
 }
 
 /// Header area
@@ -105,6 +107,9 @@ button {
         line-height: 1em;
         border-right: 1px solid #000;
         border-bottom: 1px solid #000;
+        &.used {
+            background: red;
+        }
     }
     .remaining {
         width: 5em;
